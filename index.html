@@ -27,6 +27,64 @@
             padding: 0 20px;
         }
 
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            padding: 10px 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .music-info {
+            font-size: 0.8rem;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .music-btn {
+            background: #d4a76a;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .music-btn:hover {
+            background: #c09555;
+            transform: scale(1.1);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .volume-slider {
+            width: 80px;
+        }
+
         /* Header Section */
         header {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
@@ -433,6 +491,21 @@
             .amplop-container {
                 padding: 20px;
             }
+            
+            .music-player {
+                bottom: 10px;
+                right: 10px;
+                padding: 8px 12px;
+            }
+            
+            .music-info {
+                max-width: 120px;
+                font-size: 0.7rem;
+            }
+            
+            .volume-slider {
+                width: 60px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -456,10 +529,40 @@
             .amplop-container {
                 padding: 15px;
             }
+            
+            .music-player {
+                flex-direction: column;
+                width: auto;
+                padding: 10px;
+            }
+            
+            .music-info {
+                max-width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Music Player -->
+    <div class="music-player">
+        <div class="music-info">
+            <div>Lagu: Perfect - Ed Sheeran</div>
+            <div class="music-status">Memuat...</div>
+        </div>
+        <div class="music-controls">
+            <button class="music-btn" id="playPauseBtn">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="music-btn" id="muteBtn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+        <div class="volume-control">
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.1" value="0.5">
+        </div>
+    </div>
+
     <!-- Header Section -->
     <header>
         <h1 class="couple-names">Rina & Andi</h1>
@@ -609,7 +712,84 @@
         </div>
     </footer>
 
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
     <script>
+        // Music Player Functionality
+        const audio = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const musicStatus = document.querySelector('.music-status');
+        
+        // Auto-play music when page loads (with user interaction requirement)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Try to autoplay (will work if user has interacted with page before)
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Automatic playback started
+                    updatePlayButton(true);
+                    musicStatus.textContent = 'Sedang diputar';
+                }).catch(error => {
+                    // Auto-play was prevented, show play button
+                    updatePlayButton(false);
+                    musicStatus.textContent = 'Klik untuk memutar';
+                });
+            }
+            
+            // Set initial volume
+            audio.volume = volumeSlider.value;
+        });
+        
+        // Play/Pause button
+        playPauseBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play();
+                updatePlayButton(true);
+                musicStatus.textContent = 'Sedang diputar';
+            } else {
+                audio.pause();
+                updatePlayButton(false);
+                musicStatus.textContent = 'Dijeda';
+            }
+        });
+        
+        // Mute button
+        muteBtn.addEventListener('click', function() {
+            audio.muted = !audio.muted;
+            updateMuteButton(audio.muted);
+        });
+        
+        // Volume slider
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = volumeSlider.value;
+            updateMuteButton(audio.volume === 0);
+        });
+        
+        // Update play button icon
+        function updatePlayButton(isPlaying) {
+            const icon = playPauseBtn.querySelector('i');
+            icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+        }
+        
+        // Update mute button icon
+        function updateMuteButton(isMuted) {
+            const icon = muteBtn.querySelector('i');
+            if (isMuted || audio.volume === 0) {
+                icon.className = 'fas fa-volume-mute';
+            } else if (audio.volume < 0.5) {
+                icon.className = 'fas fa-volume-down';
+            } else {
+                icon.className = 'fas fa-volume-up';
+            }
+        }
+        
         // Smooth scrolling for anchor links
         document.querySelector('.scroll-down').addEventListener('click', function() {
             document.querySelector('.couple-section').scrollIntoView({ 
