@@ -548,7 +548,7 @@
     <div class="music-player">
         <div class="music-info">
             <div>Anwar & Intan</div>
-            <div class="music-status">Resepsi</div>
+            <div class="music-status">...</div>
         </div>
         <div class="music-controls">
             <button class="music-btn" id="playPauseBtn">
@@ -565,8 +565,8 @@
 
     <!-- Header Section -->
     <header>
-        <h1 class="couple-names">Rina & Andi</h1>
-        <p class="wedding-date">Sabtu, 15 Oktober 2023</p>
+        <h1 class="couple-names">Intan & Anwar</h1>
+        <p class="wedding-date">Sabtu, 15 Oktober 2025</p>
         <p class="invitation-text">Dengan penuh rasa syukur dan kebahagiaan, kami mengundang Anda untuk hadir dalam acara pernikahan kami.</p>
         <div class="scroll-down">
             <i class="fas fa-chevron-down"></i>
@@ -660,12 +660,12 @@
                             <i class="fas fa-university"></i>
                         </div>
                         <h3 class="payment-title">Transfer Bank</h3>
-                        <p class="payment-info">BCA - 123 456 7890</p>
-                        <p class="payment-info">a.n. Rina Wijaya</p>
-                        <button class="copy-btn" data-account="1234567890">Salin No. Rekening</button>
+                        <p class="payment-info">BCA - 1970397660</p>
+                        <p class="payment-info">a.n. AI SUMIATI</p>
+                        <button class="copy-btn" data-account="1970397660">Salin No. Rekening</button>
                     </div>
                     
-                    <div class="payment-card">
+                    <!-- <div class="payment-card">
                         <div class="payment-icon">
                             <i class="fas fa-mobile-alt"></i>
                         </div>
@@ -682,7 +682,7 @@
                         <h3 class="payment-title">QRIS</h3>
                         <p class="payment-info">Scan kode QR di samping</p>
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ContohQRCodeUntukUndanganPernikahan" alt="QR Code" style="width: 100px; height: 100px; margin-top: 10px;">
-                    </div>
+                    </div> -->
                 </div>
                 
                 <div class="amplop-note">
@@ -738,11 +738,11 @@
                 playPromise.then(_ => {
                     // Automatic playback started
                     updatePlayButton(true);
-                    musicStatus.textContent = 'Undangan';
+                    musicStatus.textContent = '...';
                 }).catch(error => {
                     // Auto-play was prevented, show play button
                     updatePlayButton(false);
-                    musicStatus.textContent = 'Resepsi';
+                    musicStatus.textContent = '...';
                     
                     // Add overlay to request user interaction
                     showPlayOverlay();
@@ -782,7 +782,7 @@
             overlay.querySelector('button').addEventListener('click', function() {
                 audio.play().then(() => {
                     updatePlayButton(true);
-                    musicStatus.textContent = 'Undangan';
+                    musicStatus.textContent = '...';
                     document.body.removeChild(overlay);
                 });
             });
