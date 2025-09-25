@@ -547,8 +547,8 @@
     <!-- Music Player -->
     <div class="music-player">
         <div class="music-info">
-            <div>Lagu: Perfect - Ed Sheeran</div>
-            <div class="music-status">Memutar...</div>
+            <div>Anwar & Intan</div>
+            <div class="music-status">Resepsi</div>
         </div>
         <div class="music-controls">
             <button class="music-btn" id="playPauseBtn">
@@ -580,8 +580,8 @@
             <div class="couple-container">
                 <div class="couple-card">
                     <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" alt="Mempelai Wanita" class="couple-img">
-                    <h3 class="couple-name">Rina Wijaya</h3>
-                    <p class="couple-desc">Putri dari Bapak Budi & Ibu Sari</p>
+                    <h3 class="couple-name">Intan</h3>
+                    <p class="couple-desc">Putri dari Bapak & Ibu</p>
                 </div>
                 
                 <div class="couple-connector">
@@ -592,8 +592,8 @@
                 
                 <div class="couple-card">
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" alt="Mempelai Pria" class="couple-img">
-                    <h3 class="couple-name">Andi Pratama</h3>
-                    <p class="couple-desc">Putra dari Bapak Joko & Ibu Ani</p>
+                    <h3 class="couple-name">Anwar</h3>
+                    <p class="couple-desc">Putra dari Bapak & Ibu</p>
                 </div>
             </div>
         </div>
@@ -604,7 +604,7 @@
         <div class="container">
             <h2 class="section-title">Acara Pernikahan</h2>
             <div class="event-container">
-                <div class="event-card">
+                <!-- <div class="event-card">
                     <div class="event-icon">
                         <i class="fas fa-ring"></i>
                     </div>
@@ -612,7 +612,7 @@
                     <p class="event-date">Sabtu, 15 Oktober 2023</p>
                     <p class="event-time">Pukul 08.00 - 10.00 WIB</p>
                     <p class="event-location">Masjid Al-Hidayah<br>Jl. Merdeka No. 123, Jakarta</p>
-                </div>
+                </div> -->
                 <div class="event-card">
                     <div class="event-icon">
                         <i class="fas fa-glass-cheers"></i>
@@ -620,7 +620,7 @@
                     <h3 class="event-title">Resepsi</h3>
                     <p class="event-date">Sabtu, 15 Oktober 2023</p>
                     <p class="event-time">Pukul 11.00 - 14.00 WIB</p>
-                    <p class="event-location">Ballroom Hotel Grand Palace<br>Jl. Sudirman No. 456, Jakarta</p>
+                    <p class="event-location">Alamat Kp. Sukarame Rt 03 Rw 07 No 37<br>Des. Sukanagalih Kec. Pacet Kab. Cianjur</p>
                 </div>
             </div>
         </div>
@@ -738,11 +738,11 @@
                 playPromise.then(_ => {
                     // Automatic playback started
                     updatePlayButton(true);
-                    musicStatus.textContent = 'Memutar...';
+                    musicStatus.textContent = 'Undangan';
                 }).catch(error => {
                     // Auto-play was prevented, show play button
                     updatePlayButton(false);
-                    musicStatus.textContent = 'Klik untuk memutar';
+                    musicStatus.textContent = 'Resepsi';
                     
                     // Add overlay to request user interaction
                     showPlayOverlay();
@@ -782,7 +782,7 @@
             overlay.querySelector('button').addEventListener('click', function() {
                 audio.play().then(() => {
                     updatePlayButton(true);
-                    musicStatus.textContent = 'Memutar...';
+                    musicStatus.textContent = 'Undangan';
                     document.body.removeChild(overlay);
                 });
             });
@@ -793,7 +793,7 @@
             if (audio.paused) {
                 audio.play();
                 updatePlayButton(true);
-                musicStatus.textContent = 'Memutar...';
+                musicStatus.textContent = 'Undangan';
             } else {
                 audio.pause();
                 updatePlayButton(false);
