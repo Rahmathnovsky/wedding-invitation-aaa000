@@ -548,11 +548,11 @@
     <div class="music-player">
         <div class="music-info">
             <div>Lagu: Perfect - Ed Sheeran</div>
-            <div class="music-status">Memuat...</div>
+            <div class="music-status">Memutar...</div>
         </div>
         <div class="music-controls">
             <button class="music-btn" id="playPauseBtn">
-                <i class="fas fa-play"></i>
+                <i class="fas fa-pause"></i>
             </button>
             <button class="music-btn" id="muteBtn">
                 <i class="fas fa-volume-up"></i>
@@ -713,7 +713,7 @@
     </footer>
 
     <!-- Audio Element -->
-    <audio id="backgroundMusic" loop>
+    <audio id="backgroundMusic" loop autoplay>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         Browser Anda tidak mendukung elemen audio.
     </audio>
@@ -726,33 +726,74 @@
         const volumeSlider = document.getElementById('volumeSlider');
         const musicStatus = document.querySelector('.music-status');
         
-        // Auto-play music when page loads (with user interaction requirement)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Try to autoplay (will work if user has interacted with page before)
+        // Auto-play music when page loads
+        window.addEventListener('load', function() {
+            // Set volume
+            audio.volume = volumeSlider.value;
+            
+            // Try to autoplay
             const playPromise = audio.play();
             
             if (playPromise !== undefined) {
                 playPromise.then(_ => {
                     // Automatic playback started
                     updatePlayButton(true);
-                    musicStatus.textContent = 'Sedang diputar';
+                    musicStatus.textContent = 'Memutar...';
                 }).catch(error => {
                     // Auto-play was prevented, show play button
                     updatePlayButton(false);
                     musicStatus.textContent = 'Klik untuk memutar';
+                    
+                    // Add overlay to request user interaction
+                    showPlayOverlay();
                 });
             }
-            
-            // Set initial volume
-            audio.volume = volumeSlider.value;
         });
+        
+        // Show overlay to request user interaction for audio
+        function showPlayOverlay() {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            overlay.style.display = 'flex';
+            overlay.style.flexDirection = 'column';
+            overlay.style.justifyContent = 'center';
+            overlay.style.alignItems = 'center';
+            overlay.style.zIndex = '9999';
+            overlay.style.color = 'white';
+            overlay.style.textAlign = 'center';
+            overlay.style.padding = '20px';
+            
+            overlay.innerHTML = `
+                <h2>Undangan Pernikahan</h2>
+                <p>Klik tombol di bawah untuk memutar musik latar</p>
+                <button style="background: #d4a76a; color: white; border: none; padding: 12px 30px; border-radius: 5px; font-size: 1.1rem; cursor: pointer; margin-top: 20px;">
+                    Putar Musik
+                </button>
+            `;
+            
+            document.body.appendChild(overlay);
+            
+            // Add event listener to the button
+            overlay.querySelector('button').addEventListener('click', function() {
+                audio.play().then(() => {
+                    updatePlayButton(true);
+                    musicStatus.textContent = 'Memutar...';
+                    document.body.removeChild(overlay);
+                });
+            });
+        }
         
         // Play/Pause button
         playPauseBtn.addEventListener('click', function() {
             if (audio.paused) {
                 audio.play();
                 updatePlayButton(true);
-                musicStatus.textContent = 'Sedang diputar';
+                musicStatus.textContent = 'Memutar...';
             } else {
                 audio.pause();
                 updatePlayButton(false);
